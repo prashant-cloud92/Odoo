@@ -1,0 +1,126 @@
+<odoo>
+	<!-- ===========bank view========== -->
+    <record id="view_bank_account_form" model="ir.ui.view">
+        <field name="name">bank.acc.form.view</field>
+        <field name="model">bank.account</field>
+        <field name="arch" type="xml">
+            <form string="Bank Account Form">
+				<group>
+					<field name="name"/>
+					<field name="customer_id"/>
+					<field name="balance"/>
+					<field name="account_open_date"/>
+					<field name="saving_account_type"/>
+					<field name="business_name"/>
+					<field name="business_category">
+						<list string="Tags">
+							<field name="tag_name"/>
+						</list>
+					</field>
+				</group>
+			</form>
+        </field>
+    </record>
+
+    <record id="view_bank_account_list" model="ir.ui.view">
+		<field name="name">bank.acc.list.view</field>
+		<field name="model">bank.account</field>
+		<field name="arch" type="xml">
+			<list string="Bank Account List">
+				<field name="name"/>
+				<field name="customer_id"/>
+				<field name="balance"/>
+				<field name="account_open_date"/>
+				<field name="saving_account_type"/>
+				<field name="business_name"/>
+
+				<field name="business_category" widget="many2many_tags"/>
+
+			</list>
+		</field>
+	</record>
+
+	<!-- ===========customer view========== -->
+    <record id="view_customer_form" model="ir.ui.view">
+        <field name="name">customer.form.view</field>
+        <field name="model">customer.detail</field>
+        <field name="arch" type="xml">
+            <form string="Customer Form">
+				<group>
+					<field name="name"/>
+					<field name="surname"/>
+					<field name="email"/>
+					<field name="phone"/>
+					<field name="village"/>
+					<field name="bank_account_number"/>
+					<field name="total_balance"/>
+					<field name="total_balance_compute"/>
+					<field name="is_kyc" default="True"/>
+				</group>
+			</form>
+        </field>
+    </record>
+
+    <record id="view_customer_list" model="ir.ui.view">
+		<field name="name">customer.list.view</field>
+		<field name="model">customer.detail</field>
+		<field name="arch" type="xml">
+			<list string="Customer List">
+				<field name="name"/>
+					<field name="surname"/>
+					<field name="email"/>
+					<field name="phone"/>
+					<field name="village"/>
+					<field name="bank_account_number"/>
+					<field name="total_balance"/>
+					<field name="total_balance_compute"/>
+					<field name="is_kyc"/>
+
+			</list>
+		</field>
+	</record>
+	<!--    ================customer tag================-->
+	<record id="view_customer_tag" model="ir.ui.view">
+        <field name="name">customer.form.view</field>
+        <field name="model">customer.tag</field>
+        <field name="arch" type="xml">
+            <form string="Customer tag Form">
+				<tree editable="top">
+					<group>
+						<field name="tag_name"/>
+						<field name="select_company"/>
+					</group>
+				</tree>
+			</form>
+        </field>
+    </record>
+    <record id="action_bank_acc" model="ir.actions.act_window">
+        <field name="name">Bank Account</field>
+        <field name="res_model">bank.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+	<record id="action_bank_transfer" model="ir.actions.act_window">
+        <field name="name">Bank Balance Transfer</field>
+        <field name="res_model">balance.transfer</field>
+        <field name="view_mode">form</field>
+    </record>
+
+	 <record id="action_customer" model="ir.actions.act_window">
+        <field name="name">Customer</field>
+        <field name="res_model">customer.detail</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+	 <record id="action_customer_tag" model="ir.actions.act_window">
+        <field name="name">Customer Tag</field>
+        <field name="res_model">customer.tag</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="menu_bank_accc_main" name="Bank Accounts"/>
+    <menuitem id="menu_bank_acc_list" name="Accounts" parent="menu_bank_accc_main" action="action_bank_acc" sequence="10"/>
+	<menuitem id="menu_customer_acc_list" name="Customer" parent="menu_bank_accc_main" action="action_customer" sequence="20"/>
+	<menuitem id="menu_balance_transfer" name="Balance Transfer" parent="menu_bank_accc_main" action="action_bank_transfer" sequence="25"/>
+	<menuitem id="menu_customer_tag" name="Customer Category" parent="menu_bank_accc_main" action="action_customer_tag" sequence="30"/>
+</odoo>

@@ -1,0 +1,29 @@
+<odoo>
+    <record id="form_view_state" model="ir.ui.view">
+        <field name="name">form.view.country</field>
+        <field name="model">states.table</field>
+        <field name="arch" type="xml">
+            <form string="Country Form">
+				<group>
+					<field name="name"/>
+					<field name="country_id_fk"/>
+
+				</group>
+			</form>
+        </field>
+    </record>
+
+     <record id="list_view_state" model="ir.ui.view">
+		<field name="name">list.view.country</field>
+		<field name="model">states.table</field>
+		<field name="arch" type="xml">
+			<list string="Country List" editable="bottom">
+				<field name="name"/>
+                   <field name="name"/>
+				   <field name="country_id_fk"/>
+
+
+			</list>
+		</field>
+	</record>
+</odoo>

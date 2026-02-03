@@ -1,0 +1,79 @@
+<odoo>
+    <record id="view_sale_order_form_view_extend" model="ir.ui.view">
+        <field name="name">sale.order.form.extends</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <field name="transport_name"/>
+            </xpath>
+
+            <xpath expr="//button[@name='action_preview_sale_order']" position="after">
+                <button name="pop_action"
+                    string="Click Me"
+                    type="object"/>
+            </xpath>
+
+
+            <!-- <xpath expr="//notebook/page[@name='order_lines']/field[@name='order line']/form/group/"-->
+        </field>
+    </record>
+<!-- ==================line view add field ==================== -->
+    <record id="view_sale_order_line_form_view_extend" model="ir.ui.view">
+        <field name="name">sale.order.form.extends</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//list/field[@name='product_uom_qty']" position="before">
+                <field name="product_details2"/>
+            </xpath>
+
+
+
+
+            <!-- <xpath expr="//notebook/page[@name='order_lines']/field[@name='order line']/form/group/"-->
+        </field>
+    </record>
+
+
+     <record id="action_sale_order_wizard" model="ir.ui.view">
+        <field name="name">Tax Select slab</field>
+        <field name="model">sale.order.wizard</field>
+       <field name="arch" type="xml">
+            <form string="Sale Order Wizard">
+                <group>
+                <field name="tax_select"/>
+                </group>
+                <footer>
+                    <button name="submit_action"
+                            string="Submit"
+                            type="object"/>
+                    <button string="Cancel"
+                            special="cancel"/>
+
+                </footer>
+
+            </form>
+        </field>
+
+    </record>
+
+    <record id="view_customer_view_extend" model="ir.ui.view">
+        <field name="name">customer.form.extends</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+<!--//sheet/group/group[2]/field[@name='phone']-->
+            <xpath expr="//sheet/group/group[2]" position="inside">
+                <field name="transport_company"/>
+            </xpath>
+
+
+
+
+            <!-- <xpath expr="//notebook/page[@name='order_lines']/field[@name='order line']/form/group/"-->
+        </field>
+    </record>
+</odoo>

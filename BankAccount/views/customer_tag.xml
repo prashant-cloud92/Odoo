@@ -1,0 +1,15 @@
+<odoo>
+
+  <record id="view_customer_tag_list" model="ir.ui.view">
+		<field name="name">customer.tag.list.view</field>
+		<field name="model">cutomer.tag</field>
+		<field name="arch" type="xml">
+			<list string="Customer Tag">
+				<field name="tag_name"/>
+				<field name="select_company"/>
+
+			</list>
+		</field>
+	</record>
+
+</odoo>

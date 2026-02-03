@@ -1,0 +1,20 @@
+<odoo>
+
+    <record id="view_form_customer_balance_transfer" model="ir.ui.view">
+		<field name="name">customer.bal.transfer.form.view</field>
+		<field name="model">balance.transfer</field>
+		<field name="arch" type="xml">
+			<form string="Customer Form">
+				<group>
+					<field name="from_account_id"/>
+					<field name="to_account_id"/>
+					<field name="amount" required="1"/>
+					<button name="balance_transfer_click"
+						string="Transfer"
+						type="object"/>
+
+				</group>
+			</form>
+		</field>
+	</record>
+</odoo>

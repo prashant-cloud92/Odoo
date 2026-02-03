@@ -1,0 +1,86 @@
+<odoo>
+	<record id="view_student_info_form" model="ir.ui.view">
+    <field name="name">student.info.form</field>
+    <field name="model">student.info</field>
+    <field name="arch" type="xml">
+
+        <form string="Student Information">
+
+            <!-- HEADER -->
+            <header>
+                <button name="action_confirm" type="object"
+                        string="Confirm" class="btn-primary"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </header>
+
+            <!-- SHEET -->
+            <sheet>
+
+                <!-- IMAGE -->
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Student Name"/>
+                    </h1>
+                </div>
+
+                <group>
+                    <group>
+                        <field name="email"/>
+                        <field name="mobile"/>
+                        <field name="age"/>
+                        <field name="gender"/>
+                    </group>
+
+                    <group>
+                        <field name="birth_date"/>
+                        <field name="join_datetime"/>
+                        <field name="fees"/>
+
+                    </group>
+                </group>
+
+                <!-- NOTEBOOK (TABS) -->
+                <notebook>
+
+                    <!-- TAB 1 -->
+                    <page string="Address">
+                        <field name="address"/>
+                    </page>
+
+                    <!-- TAB 2
+                    <page string="Subjects">
+                        <field name="subjects_ids" widget="many2many_tags"/>
+                    </page> -->
+
+                    <!-- TAB 3
+                    <page string="Lines">
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="marks"/>
+                            </tree>
+                        </field>
+                    </page> -->
+
+                </notebook>
+
+            </sheet>
+        </form>
+
+    </field>
+</record>
+    <record id="action_student_info" model="ir.actions.act_window">
+    <field name="name">Students</field>
+    <field name="res_model">student.info</field>
+    <field name="view_mode">list,form</field>
+</record>
+    <menuitem id="menu_student_root"
+          name="Student Management"
+          sequence="10"/>
+
+<menuitem id="menu_student_info"
+          name="Students"
+          parent="menu_student_root"
+          action="action_student_info"
+          sequence="1"/>
+</odoo>

@@ -1,0 +1,42 @@
+<odoo>
+    <record id="form_view_country" model="ir.ui.view">
+        <field name="name">form.view.country</field>
+        <field name="model">country.table</field>
+        <field name="arch" type="xml">
+            <form string="Country Form">
+				<group>
+					<field name="name"/>
+                    <field name="state" widget="many2many_tags"/>
+				</group>
+			</form>
+        </field>
+    </record>
+
+     <record id="list_view_country" model="ir.ui.view">
+		<field name="name">list.view.country</field>
+		<field name="model">country.table</field>
+		<field name="arch" type="xml">
+			<list string="Country List" editable="bottom">
+
+                   <field name="name"/>
+                   <field name="state" widget="many2many_tags" />
+
+
+			</list>
+		</field>
+	</record>
+    <record id="action_country" model="ir.actions.act_window">
+        <field name="name">Country</field>
+        <field name="res_model">country.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_state" model="ir.actions.act_window">
+        <field name="name">State</field>
+        <field name="res_model">states.table</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_student_main" name="Country State"/>
+    <menuitem id="menu_student_list" name="Country" parent="menu_student_main" action="action_country" sequence="10"/>
+    <menuitem id="menu_student_interest" name="State" parent="menu_student_main" action="action_state" sequence="20"/>
+</odoo>
