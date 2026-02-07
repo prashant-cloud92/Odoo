@@ -1,0 +1,29 @@
+<odoo>
+
+    <record id="view_form_product_sutter" model="ir.ui.view">
+		<field name="name">view_form_product_sutter</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="inside">
+				<page string="Shutter Parameter" name="shutter_info">
+
+				<group>
+
+
+					<field name="is_apron"/>
+
+					<field name="min_width"/>
+					<field name="max_width"/>
+					<field name="min_height"/>
+					<field name="max_height"/>
+
+
+				</group>
+
+				</page>
+
+			</xpath>
+		</field>
+	</record>
+</odoo>

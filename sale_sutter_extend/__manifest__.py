@@ -2,16 +2,19 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Bank Account Detail',
+    'name': 'Sale Sutter Extend',
     'version': '1.0',
-    'summary': 'Manages operation of Bank',
+    'summary': 'Sutter Extend',
+    'description': "sutter extend",
     'description':'Manages operation of Bank Account',
-    'depends': ['base'],
+    'depends': ['base','sale'],
     'data': [
 
-        'views/bank_account_view.xml',
-        'views/balance_transfer.xml',
-        'views/customer_tag.xml'
+        'views/sutter_extend.xml',
+        'views/sale_line.xml',
+
+
+
 
         ],
     'installable': True,

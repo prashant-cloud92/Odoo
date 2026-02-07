@@ -25,3 +25,16 @@ class CustomerDetail(models.Model):
             for acc in rec.bank_account_number:
                 balance+=acc.balance
             rec.total_balance_compute=balance
+
+    def write(self, vals):
+        #here self in current object and val in edited field write method override
+        # Check field
+        rec=super().write(vals)
+        if 'is_kyc' in vals:
+
+                bank_id=self.bank_account_number
+                for account_id in bank_id:
+                    account_id.write({'is_active':vals['is_kyc']})
+
+#bank_acc_ids.write({'is_active':vals['is_kyc']}) #Option 2
+        return rec

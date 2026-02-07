@@ -18,7 +18,10 @@ class BalanceTransfer(models.Model):
             raise UserError("Please enter a positive amount")
         elif self.from_account_id.balance < self.amount:
             raise UserError("Insufficient balance")
-
+        if not self.to_account_id.customer_id.is_kyc:
+            raise UserError(f"Please an active customer have account number {self.to_account_id.name}")
+        if not self.from_account_id.customer_id.is_kyc:
+            raise UserError(f"Please an active customer have account number {self.from_account_id.name}")
         self.from_account_id.write({'balance':self.from_account_id.balance-self.amount})
         self.to_account_id.write({'balance':self.to_account_id.balance+self.amount})
         return {
@@ -31,3 +34,5 @@ class BalanceTransfer(models.Model):
                 'sticky': False,
             }
         }
+
+

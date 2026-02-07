@@ -17,6 +17,7 @@ class BankAccount(models.Model):
         string='Account Type',
 
     )
+    status=fields.Boolean("Account Status",default=False)
     business_name=fields.Char("Business Name")
     business_category=fields.Many2many(
         'customer.tag',string="Business Category" )
@@ -28,6 +29,13 @@ class BankAccount(models.Model):
             if not customer_id.is_kyc:
                 raise UserError("Kyc is Not Completed")
         return super(BankAccount, self).create(val)
+
+    # def create(self,vals):
+    #     return super(BalanceTransfer,self).create(vals)
+    #
+    # def write(self,vals):
+    #     self.from_acc_id
+    #     return super(BalanceTransfer,self).write(vals)
 
 
 

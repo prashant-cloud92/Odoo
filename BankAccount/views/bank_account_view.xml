@@ -12,11 +12,10 @@
 					<field name="account_open_date"/>
 					<field name="saving_account_type"/>
 					<field name="business_name"/>
-					<field name="business_category">
-						<list string="Tags">
-							<field name="tag_name"/>
-						</list>
-					</field>
+					<field name="business_category"/>
+					<field name="status"/>
+
+
 				</group>
 			</form>
         </field>
@@ -33,7 +32,7 @@
 				<field name="account_open_date"/>
 				<field name="saving_account_type"/>
 				<field name="business_name"/>
-
+				<field name="status"/>
 				<field name="business_category" widget="many2many_tags"/>
 
 			</list>
