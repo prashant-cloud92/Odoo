@@ -12,6 +12,7 @@
 
         'views/sutter_extend.xml',
         'views/sale_line.xml',
+        'views/sutter_type.xml'
 
 
 

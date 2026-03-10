@@ -1,0 +1,75 @@
+<odoo>
+    <record id="view_school_student_form" model="ir.ui.view">
+    <field name="name">school.student.form</field>
+    <field name="model">student.model</field>
+    <field name="arch" type="xml">
+
+        <form string="Student">
+
+            <sheet>
+                <group>
+                    <field name="name"/>
+
+                    <field name="subject_ids"/>
+                    <field name="teacher_ids"/>
+
+                    <field name="teacher_id" domain="[('id','in',teacher_ids)]"/>
+                </group>
+
+                <notebook>
+                    <page string="Batch Subjects">
+
+
+                        <field name="batch_line_ids">
+
+                            <list editable="bottom">
+
+                                <!-- 4️⃣ Many2one inside One2many -->
+                                <!-- Show only selected student subjects -->
+                                <field name="subject_id"/>
+
+                            </list>
+
+                        </field>
+
+                    </page>
+                </notebook>
+
+            </sheet>
+
+        </form>
+
+    </field>
+</record>
+         <record id="view_school_student_tree" model="ir.ui.view">
+        <field name="name">school.student.tree</field>
+        <field name="model">student.model</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="teacher_id"/>
+            </list>
+        </field>
+    </record>
+
+
+      <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+
+    <!-- ================================= -->
+    <!-- 2️⃣ PARENT MENU -->
+    <!-- ================================= -->
+
+
+
+     <menuitem id="menu_school_student"
+              name="Students"
+              parent="menu_school_main"
+              action="action_school_student"
+              sequence="1"/>
+</odoo>

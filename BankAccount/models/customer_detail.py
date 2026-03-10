@@ -5,7 +5,7 @@ from odoo import api, fields, models, tools
 class CustomerDetail(models.Model):
     _name = "customer.detail"
     _description = "Customer Detail"
-    _rec_name = 'surname'
+    _rec_name = 'name'
 
     name = fields.Char("Customer Name")
     surname = fields.Char("Surname")

@@ -6,5 +6,5 @@ class InterestSubject(models.Model):
     _rec_name = 'interest_subject'
 
     interest_subject = fields.Char(string='Interest Subject')
-    student_id = fields.Many2many('student.info','student_info_interest_subject_ref','interest_subject_id','student_id', string='Student')
+    student_id = fields.Many2many('student.info','interest_subject_student_info_rel','interest_subject_id','student_info_id', string='Student')
 

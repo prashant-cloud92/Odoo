@@ -13,6 +13,9 @@
 					<field name="shutter_width"/>
 
 					<field name="shutter_height"/>
+					<field name="lock_product_id"/>
+					<field name="stopper_product_id"/>
+					<field name="blade_product_id"/>
 
 
 

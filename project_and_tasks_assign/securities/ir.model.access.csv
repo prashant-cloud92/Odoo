@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acc_customer_master,acc.customer.master,model_my_project,project_access_user,1,0,0,0
+acc_projects,acc.projects,model_customer_master,project_access_user,1,0,0,0
+acc_tasks,acc.tasks,model_my_task,project_access_user,1,1,1,1
+acc_customer_master_manager,acc.customer.master.manager,model_my_project,project_manager_access_full,1,1,1,1
+acc_user,acc.user,base.model_res_users,project_access_user,1,0,0,0

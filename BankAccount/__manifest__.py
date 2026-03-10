@@ -8,10 +8,13 @@
     'description':'Manages operation of Bank Account',
     'depends': ['base'],
     'data': [
-
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'views/account_transaction.xml',
         'views/bank_account_view.xml',
         'views/balance_transfer.xml',
-        'views/customer_tag.xml'
+        'views/customer_tag.xml',
+
 
         ],
     'installable': True,

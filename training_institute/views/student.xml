@@ -1,0 +1,67 @@
+<odoo>
+
+	<!-- ===========Student Form view========== -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.form.view</field>
+        <field name="model">training.student</field>
+        <field name="arch" type="xml">
+            <form string="Student Form">
+				<group>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                    </group>
+                    <group>
+                        <field name="age"/>
+                        <field name="gender"/>
+                    </group>
+                    <group>
+                        <field name="course_ids" widget="many2many_tags"/>
+                        <field name="batch_ids" domain="[('course_id','in',course_ids)]"/>
+				    </group>
+				</group>
+			</form>
+        </field>
+    </record>
+
+    <!-- ===========Student List view========== -->
+    <record id="view_student_list" model="ir.ui.view">
+        <field name="name">student.list.view</field>
+        <field name="model">training.student</field>
+        <field name="arch" type="xml">
+            <list string="Student Record">
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="age"/>
+                        <field name="gender"/>
+                        <field name="course_ids" widget="many2many_tags"/>
+                        <field name="batch_ids"/>
+			</list>
+        </field>
+    </record>
+
+     <record id="action_student_model" model="ir.actions.act_window">
+        <field name="name">Student Info</field>
+        <field name="res_model">training.student</field>
+        <field name="view_mode">list,form</field>
+    </record>
+     <record id="action_course_model" model="ir.actions.act_window">
+        <field name="name">Course Info</field>
+        <field name="res_model">training.course</field>
+        <field name="view_mode">list,form</field>
+    </record>
+     <record id="action_batch_model" model="ir.actions.act_window">
+        <field name="name">Batch Info</field>
+        <field name="res_model">training.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_training_main" name="Training Institute Management"/>
+
+    <menuitem id="menu_course_list" name="Course" parent="menu_training_main" action="action_course_model" sequence="20"/>
+    <menuitem id="menu_batch_list" name="Batch" parent="menu_training_main" action="action_batch_model" sequence="30"/>
+    <menuitem id="menu_student_list" name="Student" parent="menu_training_main" action="action_student_model" sequence="10"/>
+</odoo>
+

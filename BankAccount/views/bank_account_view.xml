@@ -122,4 +122,5 @@
 	<menuitem id="menu_customer_acc_list" name="Customer" parent="menu_bank_accc_main" action="action_customer" sequence="20"/>
 	<menuitem id="menu_balance_transfer" name="Balance Transfer" parent="menu_bank_accc_main" action="action_bank_transfer" sequence="25"/>
 	<menuitem id="menu_customer_tag" name="Customer Category" parent="menu_bank_accc_main" action="action_customer_tag" sequence="30"/>
+	<menuitem id="menu_customer_trasaction" name="Account Transaction" parent="menu_bank_accc_main" action="action_transaction" sequence="40"/>
 </odoo>

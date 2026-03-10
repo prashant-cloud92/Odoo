@@ -1,0 +1,47 @@
+<odoo>
+
+    <record id="view_form_shutter_type" model="ir.ui.view">
+		<field name="name">view.form.shutter.type</field>
+		<field name="model">shutter.type</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<field name="name"/>
+					<field name="min_width"/>
+					<field name="max_width"/>
+					<field name="min_height"/>
+					<field name="max_height"/>
+                    <field name="lock_product_id"/>
+					<field name="stopper_product_id"/>
+					<field name="blade_product_id"/>
+				</group>
+			</form>
+		</field>
+	</record>
+
+    <record id="view_list_shutter_type" model="ir.ui.view">
+		<field name="name">view.list.shutter.type</field>
+		<field name="model">shutter.type</field>
+		<field name="arch" type="xml">
+				<list>
+					<field name="name"/>
+					<field name="min_width"/>
+					<field name="max_width"/>
+					<field name="min_height"/>
+					<field name="max_height"/>
+                    <field name="lock_product_id"/>
+					<field name="stopper_product_id"/>
+					<field name="blade_product_id"/>
+				</list>
+		</field>
+	</record>
+
+     <record id="action_shutter_type" model="ir.actions.act_window">
+        <field name="name">Shutter Type</field>
+        <field name="res_model">shutter.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_shuuter_list" name="Shutter Type" parent="sale.product_menu_catalog" action="action_shutter_type" sequence="25"/>
+</odoo>

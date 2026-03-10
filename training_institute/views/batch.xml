@@ -1,0 +1,52 @@
+<odoo>
+
+
+	<!-- ===========Batch Form view========== -->
+    <record id="view_batch_form" model="ir.ui.view">
+        <field name="name">batch.form.view</field>
+        <field name="model">training.batch</field>
+        <field name="arch" type="xml">
+            <form string="Batch Form">
+				<group>
+                    <group>
+                        <field name="name"/>
+                        <field name="course_id" domain="[('is_active','=','true')]"/>
+
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+
+                    </group>
+                    <group>
+                        <field name="capacity"/>
+                         </group>
+
+
+
+
+				</group>
+                <group>
+                    <field name="student_ids"/>
+                </group>
+			</form>
+        </field>
+    </record>
+
+    <!-- ===========Batch List view========== -->
+    <record id="view_batch_list" model="ir.ui.view">
+        <field name="name">batch.list.view</field>
+        <field name="model">training.batch</field>
+        <field name="arch" type="xml">
+            <list string="Batch Record">
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="capacity"/>
+                    <field name="student_ids"/>
+
+			</list>
+        </field>
+    </record>
+</odoo>

@@ -9,7 +9,7 @@ class ShutterProduct(models.Model):
     max_width=fields.Float(default=0.0)
     min_height=fields.Float(default=0.0)
     max_height=fields.Float(default=0.0)
-
+    shutter_type_id=fields.Many2one('shutter.type')
 
     def create(self, vals):
         if vals.get('is_apron',False):

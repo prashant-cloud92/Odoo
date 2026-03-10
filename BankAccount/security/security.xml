@@ -1,0 +1,11 @@
+<odoo>
+    <record id="bank_access_user" model="res.groups">
+        <field name="name">bank account mid level</field>
+    </record>
+
+    <record id="bank_access_full" model="res.groups">
+        <field name="name">bank account full access</field>
+        <field name="implied_ids" eval="[(4,ref('bank_access_user'))]"/>
+    </record>
+
+</odoo>
