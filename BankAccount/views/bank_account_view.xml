@@ -9,11 +9,13 @@
 					<field name="name"/>
 					<field name="customer_id"/>
 					<field name="balance"/>
+					<field name="total_balance"/>
 					<field name="account_open_date"/>
 					<field name="saving_account_type"/>
 					<field name="business_name"/>
 					<field name="business_category"/>
 					<field name="status"/>
+					<field name="is_active_kyc"/>
 
 
 				</group>
@@ -28,12 +30,15 @@
 			<list string="Bank Account List">
 				<field name="name"/>
 				<field name="customer_id"/>
+
 				<field name="balance"/>
+				<field name="total_balance"/>
 				<field name="account_open_date"/>
 				<field name="saving_account_type"/>
 				<field name="business_name"/>
 				<field name="status"/>
 				<field name="business_category" widget="many2many_tags"/>
+				<field name="is_active_kyc"/>
 
 			</list>
 		</field>
@@ -55,6 +60,9 @@
 					<field name="total_balance"/>
 					<field name="total_balance_compute"/>
 					<field name="is_kyc" default="True"/>
+					<field name="adhar_numer"/>
+					<field name="pan_number"/>
+					<field name="mob_number"/>
 				</group>
 			</form>
         </field>
@@ -74,6 +82,9 @@
 					<field name="total_balance"/>
 					<field name="total_balance_compute"/>
 					<field name="is_kyc"/>
+					<field name="adhar_numer"/>
+					<field name="pan_number"/>
+					<field name="mob_number"/>
 
 			</list>
 		</field>

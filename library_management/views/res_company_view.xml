@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_res_company_view_extend" model="ir.ui.view">
+        <field name="name">view.res.company.view.xtend</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook/page[2]" position="after">
+                <page string="Book Panelty">
+                    <group>
+                        <field name="penalty_charge"/>
+                        <field name="book_validity"/>
+
+                    </group>
+                    <group>
+                        <field name="penalty_data">
+                        <list editable="top">
+                            <field name="from_days"/>
+                            <field name="to_days"/>
+                            <field name="penalty_charge"/>
+
+
+                        </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+
+
+
+            <!-- <xpath expr="//notebook/page[@name='order_lines']/field[@name='order line']/form/group/"-->
+        </field>
+    </record>
+
+
+</odoo>

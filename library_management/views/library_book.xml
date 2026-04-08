@@ -1,0 +1,40 @@
+<odoo>
+     <record id="view_form_library_book" model="ir.ui.view">
+		<field name="name">library.book.form.view</field>
+		<field name="model">library.book</field>
+		<field name="arch" type="xml">
+			<form string="Library List">
+                <group>
+					<field name="name"/>
+					<field name="author_name"/>
+                    <field name="available_qty"/>
+                    <field name="is_available"/>
+                </group>
+			</form>
+		</field>
+	</record>
+
+      <record id="view_list_library_book" model="ir.ui.view">
+		<field name="name">library.book.list.view</field>
+		<field name="model">library.book</field>
+		<field name="arch" type="xml">
+			<list string="Library List">
+
+					<field name="name"/>
+					<field name="author_name"/>
+                    <field name="available_qty"/>
+                    <field name="is_available"/>
+
+			</list>
+		</field>
+	</record>
+
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+	<menuitem id="library_books" name="Books" parent="menu_library" action="action_library_book" sequence="10"/>
+	<menuitem id="book_issue" name="Issue Book" parent="menu_library" action="action_book_issue" sequence="20"/>
+</odoo>

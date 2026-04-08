@@ -13,6 +13,10 @@ class CustomerDetail(models.Model):
     phone = fields.Char("Phone")
     village = fields.Char("Village")
     is_kyc = fields.Boolean("Is KYC",default=False)
+    adhar_numer=fields.Integer("Adhar Number",default=123456789)
+    pan_number=fields.Char("Pan Number",default="DUGPK4771K")
+    mob_number=fields.Char("Mob Number",default="0000000")
+
 
     bank_account_number = fields.One2many('bank.account','customer_id',string="Customer")
     total_balance = fields.Float("Total Balance")

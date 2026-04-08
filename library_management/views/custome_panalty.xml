@@ -1,0 +1,16 @@
+<odoo>
+     <record id="view_list_custom_panalty" model="ir.ui.view">
+		<field name="name">view.list.custom.panalty</field>
+		<field name="model">custom.penalty</field>
+		<field name="arch" type="xml">
+			<list string="Library List" editable="top">
+
+					<field name="from_days"/>
+					<field name="to_days"/>
+                    <field name="penalty_charge"/>
+                    <field name="company_id"/>
+
+			</list>
+		</field>
+	</record>
+</odoo>
