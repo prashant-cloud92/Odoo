@@ -37,12 +37,12 @@
                         invisible="[('status', '=', 'draft')]"/>
 
 
-            </header> -->
+            </header> domain="[('available_qty','>',0)]"-->
                 <sheet>
                     <group>
                         <group>
                         <field name="status" invisible="1"/>
-                        <field name="book_id" domain="[('available_qty','>',0)]"/>
+                        <field name="book_id"/>
                         <field name="member_id"/>
                         <field name="issue_date" readonly="1" widget="date"/>
                         </group>
@@ -118,6 +118,35 @@
 			</list>
 		</field>
 	</record>
+
+    <record id="view_my_wizard_form" model="ir.ui.view">
+    <field name="name">my.wizard.form.new</field>
+    <field name="model">my.wizard.return</field>
+    <field name="arch" type="xml">
+        <form string="My Wizard">
+            <group>
+                <field name="main_id"/>
+            </group>
+
+            <field name="line_ids">
+                <list editable="bottom">
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                </list>
+            </field>
+
+            <footer>
+                <button name="action_return_picking"
+                        type="object"
+                        string="Return"
+                        class="btn-primary"/>
+
+                <button string="Cancel"
+                        special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
 
 	<record id="action_book_issue" model="ir.actions.act_window">
         <field name="name">Book Issue</field>

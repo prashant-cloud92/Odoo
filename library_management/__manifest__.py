@@ -6,7 +6,7 @@
     'version': '1.0',
     'summary': 'Library Management 2.0',
     'description':'Library Management 2.0',
-    'depends': ['base'],
+    'depends': ['base','product','stock'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -14,6 +14,7 @@
         'views/library_book.xml',
         'views/custome_panalty.xml',
         'views/res_company_view.xml',
+        'views/product.xml'
 
 
 

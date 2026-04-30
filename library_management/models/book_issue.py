@@ -10,7 +10,7 @@ class BookIssue(models.Model):
     _name = 'book.issue'
     _description = 'Book Issue'
 
-    book_id = fields.Many2one("library.book",string="Book Name")
+    book_id = fields.Many2one("product.product",string="Book Name")
     member_id = fields.Many2one('res.users',string='Name')
     issue_date = fields.Date(string="Issue Date",default=fields.Date.today)
     return_date = fields.Date(string="Return Date",default=fields.Date.today)
@@ -26,8 +26,10 @@ class BookIssue(models.Model):
 
 
         record = super().create(vals)
-        if not record.member_id.active:
-            raise UserError("Please Active Your Account First")
+        record.member_id.active=True
+
+
+        record.book_id.available_qty=10
         if record.book_id:
             if record.book_id.available_qty <= 0:
                 raise UserError("Book is not available!")
@@ -45,14 +47,38 @@ class BookIssue(models.Model):
 
 
     def action_issue(self):
-        res_company_obj = self.env.company
-        for rec in self:
-            if rec.book_id.available_qty <= 0:
-                raise UserError("Book is not available!")
-            rec.book_id.write({'available_qty':rec.book_id.available_qty -1})
-            rec.write({'status':'issue'})
-            rec.last_date=self.issue_date + timedelta(days=res_company_obj.book_validity)
-            rec.write({'last_date':rec.last_date})
+
+        picking_pool=self.env['stock.picking']
+        picking_type=self.env['stock.picking.type'].search([('name','=',"Delivery Orders")],limit=1,order='id')
+
+        picking_id=picking_pool.create({'picking_type_id':picking_type.id if picking_type else False,
+                                        'origin':f"issue ID : {self.id}"})
+
+
+        move_id=self.env['stock.move'].create({
+            'product_id': self.book_id.id,
+            'product_uom_qty':1,
+            'location_id':picking_type.default_location_src_id.id,
+            'location_dest_id':picking_type.default_location_dest_id.id,
+            'name':'Product Move',
+            'picking_id':picking_id.id
+        })
+        picking_id.action_confirm()
+        picking_id.button_validate()
+        self.status="issue"
+        # for record in move_id:
+        #     record.picking_id.button_validate()
+        return
+
+        # res_company_obj = self.env.company
+        # for rec in self:
+        #     if rec.book_id.available_qty <= 0:
+        #         raise UserError("Book is not available!")
+        #     rec.book_id.write({'available_qty':rec.book_id.available_qty -1})
+        #     rec.write({'status':'issue'})
+        #     rec.last_date=self.issue_date + timedelta(days=res_company_obj.book_validity)
+        #     rec.write({'last_date':rec.last_date})
+
 
 
         # all_record_line=[]
@@ -69,34 +95,124 @@ class BookIssue(models.Model):
         #     if all_record_line[i]['to_days']==all_record_line[i]['from_days']:
         #         raise UserError("From date and To date Same not allowed")
 
+    class MyWizardLine(models.TransientModel):
+        _name = 'my.wizard.line'
+
+        wizard_id = fields.Many2one('my.wizard.return')
+
+        product_id = fields.Many2one('product.product')
+        qty = fields.Float()
+    class MyWizard(models.TransientModel):
+        _name = 'my.wizard.return'
+        _description = 'My Wizard'
+
+        main_id = fields.Many2one('book.issue', string="Main Record")
+
+        line_ids = fields.One2many(
+            'my.wizard.line',
+            'wizard_id',
+            string="Related Records"
+        )
+
+        def action_return_picking(self):
+
+            self.ensure_one()
+            picking_id= self.main_id
+            picking_type_out=self.env.ref('stock.picking_type_out')
+            picking_type_in = self.env.ref('stock.picking_type_in')
+
+            return_picking=self.env['stock.picking'].create({
+                'picking_type_id':picking_type_out.id,
+
+                'location_id':picking_type_in.default_location_src_id.id,
+                'location_dest_id':picking_type_in.default_location_dest_id.id,
+                'origin':f"issue ID : {self.main_id.id}",
+            })
+            for line in self.line_ids:
+                if line.qty > 0:
+
+                    move_id = self.env['stock.move'].create({
+                        'product_id': self.main_id.book_id.id,
+                        'product_uom_qty': 1,
+                        'location_id': picking_type_in.default_location_src_id.id,
+                        'location_dest_id': picking_type_in.default_location_dest_id.id,
+                        'name': 'Product Move',
+                        'picking_id': return_picking.id
+                    })
+
+            return_picking.action_confirm()
+            return_picking.action_assign()
+
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'stock.picking',
+                'res_id': return_picking.id,
+                'view_mode': 'form',
+            }
+
+
+        @api.model
+        def default_get(self, fields_list):
+            res = super().default_get(fields_list)
+
+            main_id = self.env.context.get('default_main_id')
+
+            if main_id:
+                lines = []
+                pickings = self.env['stock.picking'].search([
+                    ('origin', '=', f"issue ID : {main_id}"),
+                    ('state', '=', 'done'),
+
+                ])
+                move_id = self.env['stock.move'].search([('picking_id', 'in', pickings.ids)])
+                for picking in move_id:
+
+                        lines.append((0, 0, {
+                            'product_id': picking.product_id.id,
+                            'qty': picking.product_uom_qty,
+                        }))
+
+                res['line_ids'] = lines
+
+            return res
 
 
     def action_return(self):
-        res_company_obj = self.env.company
-        for record in self:
-
-            panalty_charge = res_company_obj.penalty_charge
-
-            book_validity =res_company_obj.book_validity
-
-            last_date=record.last_date
-            final_penalty = 0
-
-
-            if not self.return_date:
-                raise UserError("Please Select Return Date")
-            delay_days = (self.return_date - last_date).days
-
-            if delay_days:
-
-                if delay_days > book_validity:
-                    if delay_days > (book_validity * 2):
-                        final_penalty=panalty_charge * 2
-                    else:
-                        company = self.env['custom.penalty'].search([('from_days', '<=', delay_days),
-                                                                    ('to_days', '>=', delay_days),('company_id', '=', self.env.company.id)])
-                        final_penalty=panalty_charge + (panalty_charge * company.penalty_charge/100)
-
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'My Wizard',
+            'res_model': 'my.wizard.return',
+            'view_mode': 'form',
+            'target': 'new',  # open popup
+            'context': {
+                'default_main_id': self.id,  # pass current record id
+            }
+        }
+        # res_company_obj = self.env.company
+        # for record in self:
+        #
+        #     panalty_charge = res_company_obj.penalty_charge
+        #
+        #     book_validity =res_company_obj.book_validity
+        #
+        #     last_date=record.last_date
+        #     final_penalty = 0
+        #
+        #
+        #     if not self.return_date:
+        #         raise UserError("Please Select Return Date")
+        #     delay_days = (self.return_date - last_date).days
+        #
+        #     if delay_days:
+        #
+        #         if delay_days > book_validity:
+        #             if delay_days > (book_validity * 2):
+        #                 final_penalty=panalty_charge * 2
+        #             else:
+        #                 company = self.env['custom.penalty'].search([('from_days', '<=', delay_days),
+        #                                                             ('to_days', '>=', delay_days),('company_id', '=', self.env.company.id)])
+        #                 final_penalty=panalty_charge + (panalty_charge * company.penalty_charge/100)
+                    #not dynamic
                     # if 10 < delay_days < 20:
                     #     final_penalty = 100 + ((10 / 100) * 100)
                     # elif 20 < delay_days < 30:
@@ -106,10 +222,10 @@ class BookIssue(models.Model):
                     # else:
                     #     final_penalty = 100 + ((100 / 100) * 100)
 
-            record.total_penalty = final_penalty
-
-            record.book_id.write({'available_qty': record.book_id.available_qty + 1})
-            record.write({'status': 'returned', 'return_date': self.return_date})
+            # record.total_penalty = final_penalty
+            #
+            # record.book_id.write({'available_qty': record.book_id.available_qty + 1})
+            # record.write({'status': 'returned', 'return_date': self.return_date})
 
 
 
