@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lib_mgmt_book_user,lib_mgmt.book.user,model_lib_mgmt_book,library_management_ai.group_library_user,1,0,0,0
+access_lib_mgmt_book_admin,lib_mgmt.book.admin,model_lib_mgmt_book,library_management_ai.group_library_admin,1,1,1,1
+access_lib_mgmt_member_user,lib_mgmt.member.user,model_lib_mgmt_member,library_management_ai.group_library_user,1,0,0,0
+access_lib_mgmt_member_admin,lib_mgmt.member.admin,model_lib_mgmt_member,library_management_ai.group_library_admin,1,1,1,1
+access_lib_mgmt_borrow_user,lib_mgmt.borrow.user,model_lib_mgmt_borrow,library_management_ai.group_library_user,1,1,1,0
+access_lib_mgmt_borrow_admin,lib_mgmt.borrow.admin,model_lib_mgmt_borrow,library_management_ai.group_library_admin,1,1,1,1

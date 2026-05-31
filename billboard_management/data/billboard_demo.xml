@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Demo Data for Billboard Types -->
+    <record id="billboard_type_white_board" model="billboard.type">
+        <field name="name">White Board</field>
+        <field name="property_definitions">[
+            {"name": "screw", "string": "Screw", "type": "integer"},
+            {"name": "panel", "string": "Panel", "type": "integer"},
+            {"name": "is_gum", "string": "Is Gum", "type": "boolean"},
+            {"name": "is_plain_true", "string": "Is Plain True", "type": "boolean"},
+            {"name": "color", "string": "Color", "type": "selection", "selection": [["red", "Red"], ["green", "Green"], ["blue", "Blue"]]}
+        ]</field>
+    </record>
+
+    <record id="billboard_type_grey_board" model="billboard.type">
+        <field name="name">Grey Board</field>
+        <field name="property_definitions">[
+            {"name": "side", "string": "Side", "type": "integer"},
+            {"name": "is_rectangle", "string": "Is Rectangle", "type": "boolean"},
+            {"name": "bolt", "string": "Bolt", "type": "selection", "selection": [["lnkey", "Lnkey"], ["head_bolt", "Head Bolt"]]}
+        ]</field>
+    </record>
+    
+    <!-- Sub-category Demo -->
+    <record id="billboard_type_white_board_sub" model="billboard.type">
+        <field name="name">Premium White Board</field>
+        <field name="parent_id" ref="billboard_type_white_board"/>
+        <field name="property_definitions">[
+            {"name": "extra_feature", "string": "Extra Feature", "type": "char"}
+        ]</field>
+    </record>
+
+</odoo>

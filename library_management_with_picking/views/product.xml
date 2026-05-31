@@ -1,0 +1,116 @@
+<odoo>
+
+     <record id="book_product_form_view" model="ir.ui.view">
+		<field name="name">book.product.form.view</field>
+		<field name="model">product.template</field>
+		<field name="arch" type="xml">
+			<form string="Product Form">
+                <group>
+                <field name="name" string="Book Name"/>
+                <field name="author_name" string="Author Name"/>
+                    <field name="available_qty" string="Available Qty"/>
+                    <field name="is_available" string="Is Available"/>
+                    <field name="code" string="Code"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+
+
+
+               </group>
+            </form>
+        </field>
+     </record>
+
+    <record id="book_product_list_view" model="ir.ui.view">
+		<field name="name">book.product.list.view</field>
+		<field name="model">product.template</field>
+		<field name="arch" type="xml">
+			<list string="Product List">
+
+                 <field name="name" string="Book Name"/>
+                <field name="author_name" string="Author Name"/>
+                    <field name="available_qty" string="Available Qty"/>
+                    <field name="is_available" string="Is Available"/>
+                    <field name="code" string="Code"/>
+
+
+            </list>
+        </field>
+     </record>
+
+    <record id="view_book_kanban" model="ir.ui.view">
+    <field name="name">library.book.kanban</field>
+    <field name="model">product.template</field>
+    <field name="arch" type="xml">
+
+
+    <kanban>
+         <field name="name"/>
+        <field name="is_available"/>
+        <field name="available_qty"/>
+        <field name="code"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card p-3 shadow-sm rounded bg-white">
+
+                         <div class="d-flex justify-content-between align-items-start">
+                                <div><!-- Title -->
+                                <div class="fw-bold fs-5 text-primary">
+                                    <field name="name"/>
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mt-1">
+                                    <span t-if="record.is_available.raw_value" class="badge bg-success">
+                                        Available
+                                    </span>
+                                    <span t-else="" class="badge bg-danger">
+                                        Not Available
+                                    </span>
+                                </div>
+
+                                <!-- Quantity -->
+                                <div class="mt-1 text-muted">
+                                    Qty: <field name="available_qty"/>
+                                </div>
+
+                                <!-- Price -->
+                                <div class="mt-1 fw-bold text-dark">
+                                    ₹ <field name="code"/>
+                                </div>
+                                </div>
+
+                                 <div>
+                        <img t-att-src="kanban_image('product.template', 'image_1920', record.id.raw_value)"
+                             class="rounded"
+                             style="width:80px; height:80px; object-fit:cover;"/>
+                    </div>
+
+                         </div>
+                    </div>
+                </t>
+            </templates>
+
+</kanban>
+    </field>
+</record>
+
+    <record id="action_open_book_product" model="ir.actions.act_window">
+    <field name="name">Custom Product</field>
+    <field name="res_model">product.template</field>
+    <field name="view_mode">list,kanban,form</field>
+    <field name="view_ids" eval="[
+    (5, 0, 0),
+    (0, 0, {'view_mode': 'list', 'view_id': ref('book_product_list_view')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('book_product_form_view')}),
+    (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_book_kanban')})
+]"/>
+
+
+</record>
+
+    <menuitem id="menu_book_product"
+          name="Book Products"
+          parent="menu_library"
+          action="action_open_book_product"
+            sequence="30"/>
+</odoo>

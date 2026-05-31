@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top Menu -->
+    <menuitem id="menu_billboard_root" name="Billboard Management" sequence="10"/>
+
+    <!-- Sub Menus -->
+    <menuitem id="menu_billboard_operations" name="Operations" parent="menu_billboard_root" sequence="1"/>
+    <menuitem id="menu_billboard_configuration" name="Configuration" parent="menu_billboard_root" sequence="100"/>
+
+    <!-- Action Menus -->
+    <menuitem id="menu_billboard_board_action" name="Billboards" parent="menu_billboard_operations" action="action_billboard_board" sequence="1"/>
+    <menuitem id="menu_billboard_type_action" name="Billboard Types" parent="menu_billboard_configuration" action="action_billboard_type" sequence="1"/>
+</odoo>

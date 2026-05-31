@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="book_issue_report">
+
+    <t t-call="web.html_container">
+         <t t-call="web.external_layout">
+
+              <t t-foreach="docs" t-as="o">
+
+                  <div class="page">
+
+                      <h2>
+                          Book Issue Report
+                      </h2>
+                        <t t-foreach="o.book_id" t-as="book">
+                            <span t-esc="book.name"/>
+                            <br/>
+                        </t>
+                      <p>
+                          Issue Number
+                          <span t-field="o.issue_date"/>
+                      </p>
+                  </div>
+              </t>
+         </t>
+    </t>
+</template>
+</odoo>

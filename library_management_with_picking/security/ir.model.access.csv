@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+lib_book_issue,lib.book.issue,model_book_issue,librarian_access_user,1,0,0,0
+lib_book,lib.book,model_library_book,librarian_access_user,1,0,0,0
+lib_admin_book_issue,lib.admin.book.issue,model_book_issue,librarian_admin,1,1,1,1
+lib_admin_library_book,lib.admin.library.book,model_library_book,librarian_admin,1,1,1,1
+date_wizard_access,date.wizard.access,model_date_wizard,,1,1,1,1
+lib_admin_custom_penalty_access,lib.custom.penalty.access,model_custom_penalty,librarian_admin,1,1,1,1

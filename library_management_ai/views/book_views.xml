@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_lib_mgmt_book_tree" model="ir.ui.view">
+        <field name="name">lib_mgmt.book.tree</field>
+        <field name="model">lib_mgmt.book</field>
+        <field name="arch" type="xml">
+            <list string="Books">
+                <field name="name"/>
+                <field name="author"/>
+                <field name="isbn"/>
+                <field name="copies"/>
+                <field name="available_copies"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_lib_mgmt_book_form" model="ir.ui.view">
+        <field name="name">lib_mgmt.book.form</field>
+        <field name="model">lib_mgmt.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Book Title"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="author"/>
+                            <field name="isbn"/>
+                        </group>
+                        <group>
+                            <field name="copies"/>
+                            <field name="available_copies"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_lib_mgmt_book" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">lib_mgmt.book</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

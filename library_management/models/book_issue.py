@@ -4,13 +4,19 @@ from odoo import api,fields,models
 from odoo.exceptions import UserError
 from datetime import timedelta
 
+class StockMove(models.Model):
+    _inherit = 'stock.move'
 
+    is_returned = fields.Boolean(
+        string="Returned",
+        default=False
+    )
 
 class BookIssue(models.Model):
     _name = 'book.issue'
     _description = 'Book Issue'
 
-    book_id = fields.Many2one("product.product",string="Book Name")
+    book_id = fields.Many2many("product.product",string="Book Name")
     member_id = fields.Many2one('res.users',string='Name')
     issue_date = fields.Date(string="Issue Date",default=fields.Date.today)
     return_date = fields.Date(string="Return Date",default=fields.Date.today)
@@ -26,15 +32,18 @@ class BookIssue(models.Model):
 
 
         record = super().create(vals)
-        record.member_id.active=True
 
 
+
+
+        record.member_id.active = True
         record.book_id.available_qty=10
-        if record.book_id:
-            if record.book_id.available_qty <= 0:
-                raise UserError("Book is not available!")
+        for new_record in record.book_id:
+            if new_record.id:
+                if new_record.available_qty <= 0:
+                    raise UserError("Book is not available!")
 
-            record.book_id.write({'available_qty':record.book_id.available_qty -1})
+                #new_record.book_id.write({'available_qty':new_record.book_id.available_qty -1})
         return record
 
     @api.depends('issue_date','return_date')
@@ -49,20 +58,21 @@ class BookIssue(models.Model):
     def action_issue(self):
 
         picking_pool=self.env['stock.picking']
-        picking_type=self.env['stock.picking.type'].search([('name','=',"Delivery Orders")],limit=1,order='id')
+        picking_type_out = self.env.company.type_out
+        #picking_type=self.env['stock.picking.type'].search([('name','=',"Delivery Orders")],limit=1,order='id')
 
-        picking_id=picking_pool.create({'picking_type_id':picking_type.id if picking_type else False,
+        picking_id=picking_pool.create({'picking_type_id':picking_type_out.id if picking_type_out else False,
                                         'origin':f"issue ID : {self.id}"})
 
-
-        move_id=self.env['stock.move'].create({
-            'product_id': self.book_id.id,
-            'product_uom_qty':1,
-            'location_id':picking_type.default_location_src_id.id,
-            'location_dest_id':picking_type.default_location_dest_id.id,
-            'name':'Product Move',
-            'picking_id':picking_id.id
-        })
+        for record in self.book_id:
+            move_id=self.env['stock.move'].create({
+                'product_id': record.id,
+                'product_uom_qty':1,
+                'location_id':picking_type_out.default_location_src_id.id,
+                'location_dest_id':picking_type_out.default_location_dest_id.id,
+                'name':'Product Move',
+                'picking_id':picking_id.id
+            })
         picking_id.action_confirm()
         picking_id.button_validate()
         self.status="issue"
@@ -100,6 +110,11 @@ class BookIssue(models.Model):
 
         wizard_id = fields.Many2one('my.wizard.return')
 
+        selected = fields.Boolean()
+        move_id = fields.Many2one(
+            'stock.move'
+        )
+
         product_id = fields.Many2one('product.product')
         qty = fields.Float()
     class MyWizard(models.TransientModel):
@@ -116,32 +131,46 @@ class BookIssue(models.Model):
 
         def action_return_picking(self):
 
-            self.ensure_one()
+
             picking_id= self.main_id
-            picking_type_out=self.env.ref('stock.picking_type_out')
-            picking_type_in = self.env.ref('stock.picking_type_in')
+            # picking_type_out=self.env.ref('stock.picking_type_out')
+            # picking_type_in = self.env.ref('stock.picking_type_in')
+            picking_type_out = self.env.company.type_out
+            picking_type_in = self.env.company.type_in
 
             return_picking=self.env['stock.picking'].create({
-                'picking_type_id':picking_type_out.id,
+                'picking_type_id':picking_type_in.id,
 
                 'location_id':picking_type_in.default_location_src_id.id,
                 'location_dest_id':picking_type_in.default_location_dest_id.id,
                 'origin':f"issue ID : {self.main_id.id}",
             })
-            for line in self.line_ids:
-                if line.qty > 0:
 
-                    move_id = self.env['stock.move'].create({
-                        'product_id': self.main_id.book_id.id,
-                        'product_uom_qty': 1,
-                        'location_id': picking_type_in.default_location_src_id.id,
-                        'location_dest_id': picking_type_in.default_location_dest_id.id,
-                        'name': 'Product Move',
-                        'picking_id': return_picking.id
-                    })
+            if any(line.selected for line in self.line_ids):
+
+
+                for line in self.line_ids:
+
+                    original_move = line.move_id
+                    if line.qty > 0:
+
+                        move_id = self.env['stock.move'].create({
+                            'product_id': line.product_id.id,
+                            'product_uom_qty': 1,
+                            'location_id': picking_type_in.default_location_src_id.id,
+                            'location_dest_id': picking_type_in.default_location_dest_id.id,
+                            'name': 'Product Move',
+                            'picking_id': return_picking.id
+                        })
+
+                        original_move.is_returned = True
+            else:
+                raise UserError("Please Select at least one Book")
 
             return_picking.action_confirm()
             return_picking.action_assign()
+            return_picking.button_validate()
+            self.main_id.status = "returned"
 
             return {
                 'type': 'ir.actions.act_window',
@@ -164,13 +193,16 @@ class BookIssue(models.Model):
                     ('state', '=', 'done'),
 
                 ])
-                move_id = self.env['stock.move'].search([('picking_id', 'in', pickings.ids)])
-                for picking in move_id:
+                moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids)])
+                for move in moves:
+                    if move.is_returned:
+                        continue
 
-                        lines.append((0, 0, {
-                            'product_id': picking.product_id.id,
-                            'qty': picking.product_uom_qty,
-                        }))
+                    lines.append((0, 0, {
+                        'move_id': move.id,
+                        'product_id': move.product_id.id,
+                        'qty': 1,
+                    }))
 
                 res['line_ids'] = lines
 

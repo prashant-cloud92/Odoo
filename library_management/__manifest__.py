@@ -14,7 +14,9 @@
         'views/library_book.xml',
         'views/custome_panalty.xml',
         'views/res_company_view.xml',
-        'views/product.xml'
+        'views/product.xml',
+        'report/template_design.xml',
+        'report/template_parent.xml',
 
 
 

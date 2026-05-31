@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top Menu -->
+    <menuitem id="menu_library_root" name="Library Management with AI" sequence="10"/>
+
+    <!-- App Menus -->
+    <menuitem id="menu_lib_mgmt_books" name="Books" parent="menu_library_root" sequence="10" action="action_lib_mgmt_book"/>
+    <menuitem id="menu_lib_mgmt_borrows" name="Borrowings" parent="menu_library_root" sequence="20" action="action_lib_mgmt_borrow"/>
+    
+    <!-- Admin Menus -->
+    <menuitem id="menu_lib_mgmt_members" name="Members" parent="menu_library_root" sequence="30" action="action_lib_mgmt_member" groups="library_management_ai.group_library_admin"/>
+</odoo>

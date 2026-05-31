@@ -4,7 +4,7 @@
 		<field name="name">book.issue.form.view</field>
 		<field name="model">book.issue</field>
 		<field name="arch" type="xml">
-			<form string="Customer Form">
+			<form string="Book Issue">
 
                 <header>
                     <field name="status" widget="statusbar"
@@ -40,12 +40,16 @@
             </header> domain="[('available_qty','>',0)]"-->
                 <sheet>
                     <group>
-                        <group>
+
                         <field name="status" invisible="1"/>
-                        <field name="book_id"/>
-                        <field name="member_id"/>
+
+                        <group>
+
+                        <field name="book_id" widget="many2many_tags"/>
+                        <field name="member_id" />
                         <field name="issue_date" readonly="1" widget="date"/>
-                        </group>
+
+                            </group>
 
                         <group>
                         <div class="d-flex align-items-center">
@@ -130,6 +134,7 @@
 
             <field name="line_ids">
                 <list editable="bottom">
+                    <field name="selected"/>
                     <field name="product_id"/>
                     <field name="qty"/>
                 </list>
