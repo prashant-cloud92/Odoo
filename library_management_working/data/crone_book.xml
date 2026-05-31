@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_low_stock_book" model="ir.cron">
+        <field name="name">Low Stock Book Notification</field>
+
+        <!-- Model -->
+        <field name="model_id" ref="model_book_detail"/>
+
+        <!-- Python method -->
+        <field name="state">code</field>
+        <field name="code">model.crone_job_low_stock_book()</field>
+
+        <!-- Run every 1 hour -->
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+
+        <!-- Infinite -->
+
+        <field name="active">True</field>
+    </record>
+
+</odoo>

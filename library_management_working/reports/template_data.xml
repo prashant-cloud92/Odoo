@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_book_issue" model="ir.actions.report">
+
+        <field name="name">Book Return Report</field>
+
+        <field name="model">book.issue</field>
+
+        <field name="report_type">qweb-pdf</field>
+
+        <field name="report_name">library_management_working.report_book_issue_template_1</field>
+
+        <field name="report_file">library_management_working.report_book_issue_template_1</field>
+
+        <field name="binding_model_id" ref="model_book_issue"/>
+
+        <field name="binding_type">report</field>
+
+    </record>
+</odoo>

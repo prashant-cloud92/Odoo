@@ -1,0 +1,130 @@
+<odoo>
+     <record id="view_form_book_issue" model="ir.ui.view">
+		<field name="name">library.book.issue.view</field>
+		<field name="model">book.issue</field>
+		<field name="arch" type="xml">
+			<form string="Library List">
+
+                <header>
+                    <field name="status" widget="statusbar"
+                    statusbar_visible="draft,issue,returned_partially,returned"/>
+                    <button name="action_issue"
+                            type="object"
+                            string="Confirm Issue"
+                            class="btn-primary"
+                            invisible="status != 'draft'"
+							confirm="Are you sure you want to issue this books?"/>
+                    <button name="action_return"
+                            type="object"
+                            string="Return Book"
+                            class="btn-danger"
+                            invisible="status != 'issue'"
+							confirm="Are you sure you want to return this books?"/>
+                    <button name="action_return_partially"
+                            type="object"
+                            string="Remaining Book Return Book"
+                            class="btn-danger"
+                            invisible="status != 'returned_partially'"
+							confirm="Are you sure you want to return this books?"/>
+
+
+
+                </header>
+
+                <sheet>
+
+                    <group>
+					<field name="sequence_gen"/>
+					<field name="member_id"/>
+
+                    <field name="total_penalty"/>
+
+                        <field name="last_date"/>
+                    </group>
+
+
+                    <notebook>
+
+                        <page string="Books">
+
+                            <field name="line_ids" invisible="status == 'returned_partially'" readonly="status == 'returned'">
+                                      <list editable="bottom">
+                                      <field name="return_select" column_invisible="parent.status not in ['issue', 'returned_partially']"/>
+                                    <field name="book_id"/>
+                                    <control>
+                                        <create string="Add Book"/>
+                                    </control>
+                                    <field name="qty"/>
+                                    <field name="issue_date"/>
+                                    <field name="last_date"/>
+                                          <field name="return_date"/>
+                                          <field name="penalty_sigle_book" readonly="1"/>
+                                    <field name="is_return" column_invisible="parent.status not in ['returned']"/>
+                                </list>
+
+
+
+
+                            <form>
+                                <group>
+
+                                   <field name="book_id"/>
+                                    <field name="qty"/>
+
+                                </group>
+                                <group>
+                                    <field name="issue_date"/>
+                                    <field name="last_date"/>
+
+                                </group>
+                            </form>
+                         </field>
+
+                            <field name="remaining_line_ids"
+                                   invisible="status != 'returned_partially'">
+                                <list editable="bottom">
+                                    <field name="return_select"/>
+                                    <field name="book_id"/>
+                                    <field name="qty"/>
+                                    <field name="return_date"/>
+                                    <field name="penalty_sigle_book"/>
+                                </list>
+                            </field>
+
+                        </page>
+
+                    </notebook>
+
+
+                </sheet>
+                <chatter/>
+			</form>
+		</field>
+	</record>
+
+    <record id="view_list_new_book_issue" model="ir.ui.view">
+		<field name="name">library.book.issue.view.list.new</field>
+		<field name="model">book.issue</field>
+		<field name="arch" type="xml">
+			<list string="Library List">
+                <field name="sequence_gen"/>
+					<field name="member_id"/>
+
+                    <field name="total_penalty"/>
+
+            </list>
+        </field>
+    </record>
+    <record id="action_library_book_issue" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="res_model">book.issue</field>
+        <field name="view_mode">list,form</field>
+            <field name="views" eval="[
+        (ref('view_list_new_book_issue'), 'list'),
+        (ref('view_form_book_issue'), 'form')
+    ]"/>
+        <field name="view_id" ref="view_list_new_book_issue"/>
+
+    </record>
+    <menuitem id="library_books1" name="Book Issue" parent="menu_library" action="action_library_book_issue" sequence="20"/>
+</odoo>

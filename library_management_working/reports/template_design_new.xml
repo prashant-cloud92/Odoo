@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<template id="report_book_issue_template_1">
+
+    <t t-call="web.html_container">
+
+        <t t-foreach="docs" t-as="o">
+
+            <t t-call="web.external_layout">
+
+                <div class="page">
+
+                    <!-- HEADER -->
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold">
+                            LIBRARY BOOK ISSUE REPORT
+                        </h2>
+
+                        <div style="font-size:14px;">
+                            Generated Date :
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                        </div>
+                    </div>
+
+                    <!-- ISSUE INFORMATION -->
+                    <div class="card mb-4"
+                         style="border:1px solid #dcdcdc;
+                                padding:15px;
+                                border-radius:10px;">
+
+                        <div class="row">
+
+                            <div class="col-6 mb-2">
+                                <strong>Issue No :</strong>
+                                <span t-field="o.member_id.name"/>
+                            </div>
+
+                            <div class="col-6 mb-2 text-end">
+                                <strong>Status :</strong>
+                                <span t-field="o.status"/>
+                            </div>
+
+                            <div class="col-6 mb-2">
+                                <strong>Student Name :</strong>
+                                <span t-field="o.total_penalty"/>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- BOOK TABLE -->
+                    <table class="table table-bordered table-sm"
+                           style="font-size:14px;">
+
+                        <thead style="background-color:#e9ecef;">
+
+                            <tr class="text-center">
+
+                                <th style="width:5%;">
+                                    #
+                                </th>
+
+                                <th>
+                                    Book Name
+                                </th>
+
+                                <th>
+                                    Author
+                                </th>
+
+                                <th>
+                                    Quantity
+                                </th>
+
+                                <th>
+                                    Return Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                             <t t-set="i" t-value="1"/>
+                            <tr t-foreach="o.line_ids"
+                                t-as="line">
+
+                                <td class="text-center">
+                                    <span t-esc="i"/>
+                                    <t t-set="i" t-value="i + 1"/>
+                                </td>
+
+
+                                <td>
+                                    <span t-field="line.book_id.name"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="line.book_id.author_name"/>
+                                </td>
+
+                                <td class="text-center">
+                                    <span t-field="line.qty"/>
+                                </td>
+
+                                <td class="text-center">
+
+                                    <span t-if="line.is_return"
+                                          class="badge bg-success">
+                                        Returned
+                                    </span>
+
+                                    <span t-else=""
+                                          class="badge bg-danger">
+                                        Pending
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <!-- FOOTER -->
+                    <div class="mt-5">
+
+                        <div class="row">
+
+                            <div class="col-6 text-center">
+
+                                <div style="margin-top:50px;
+                                            border-top:1px solid #000;">
+                                    Librarian Signature
+                                </div>
+
+                            </div>
+
+                            <div class="col-6 text-center">
+
+                                <div style="margin-top:50px;
+                                            border-top:1px solid #000;">
+                                    Student Signature
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </t>
+
+        </t>
+
+    </t>
+
+</template>
+</odoo>
