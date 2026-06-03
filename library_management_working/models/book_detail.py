@@ -11,6 +11,20 @@ class BookDetail(models.Model):
     available_qty = fields.Integer("Available Qty")
     is_available = fields.Boolean(compute="_book_available", store=True, string="Is Available")
 
+    @api.model
+    def get_dashboard_data(self):
+        total_books = self.search_count([])
+
+        available_books = self.search_count([
+            ('is_available', '=', True)
+        ])
+
+        return {
+            'total_books': total_books,
+
+            'available_books': available_books,
+        }
+
     def crone_job_low_stock_book(self):
         books=self.search([('available_qty','<',5)])
         if books:

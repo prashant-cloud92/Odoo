@@ -11,6 +11,7 @@
 
         'views/book_detail.xml',
         'views/book_issue.xml',
+        'views/dashboard_action.xml',
         'reports/template_data.xml',
         'reports/template_design_new.xml',
         'data/crone_book.xml',
@@ -19,6 +20,14 @@
 
 
 
+
         ],
+    'assets': {
+        'web.assets_backend': [
+            'library_management_working/static/src/js/book_dashboard.js',
+            'library_management_working/static/src/js/book_dashboard_action.js',
+            'library_management_working/static/src/xml/book_dashboard.xml',
+        ],
+    },
     'installable': True,
 }

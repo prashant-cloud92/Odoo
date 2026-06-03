@@ -1,0 +1,25 @@
+<odoo>
+    <record id="move_order_form_view_extend" model="ir.ui.view">
+        <field name="name">move.form.extends</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_uom_qty']" position="before">
+                <field name="order_id"/>
+            </xpath>
+
+
+
+        </field>
+    </record>
+
+      <record id="action_shutter_type_new" model="ir.actions.act_window">
+        <field name="name">Move Type</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="menu_move" name="New Task"/>
+    <menuitem id="menu_move_menu" name="Move Type" parent="menu_move" action="action_shutter_type_new" sequence="10"/>
+</odoo>

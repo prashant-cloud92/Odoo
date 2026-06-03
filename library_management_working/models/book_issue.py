@@ -65,7 +65,8 @@ class BookIssue(models.Model):
 
     def action_issue(self):
         picking_pool = self.env['stock.picking']
-        picking_type_out = self.env.company.type_out
+        #picking_type_out = self.env.company.type_out
+        picking_type_out = self.env.ref('stock.picking_type_out')
 
 
         for rec in self:
@@ -105,7 +106,9 @@ class BookIssue(models.Model):
 
     def action_return(self):
         picking_pool = self.env['stock.picking']
-        picking_type_in = self.env.company.type_in
+
+        #picking_type_in = self.env.company.type_in
+        picking_type_in = self.env.ref('stock.picking_type_in')
 
         for rec in self:
 
@@ -171,8 +174,11 @@ class BookIssue(models.Model):
 
 
     def action_return_partially(self):
+
+        # picking_type_out = self.env.ref('stock.picking_type_out')
+        picking_type_in = self.env.ref('stock.picking_type_in')
         picking_pool = self.env['stock.picking']
-        picking_type_in = self.env.company.type_in
+        #picking_type_in = self.env.company.type_in
 
         for rec in self:
 
