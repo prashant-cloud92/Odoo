@@ -1,0 +1,62 @@
+<odoo>
+
+
+    <record model="ir.ui.view" id="csv_import_list">
+      <field name="name">csv.form</field>
+      <field name="model">student.import</field>
+      <field name="arch" type="xml">
+        <form>
+            <field name="file"/>
+            <field name="file_name"/>
+            <button name="action_import_csv"
+        string="Import"
+        type="object"
+        class="btn-primary"/>
+                  </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="csv_import_button">
+      <field name="name">csv.import.window</field>
+      <field name="res_model">student.import</field>
+      <field name="view_mode">form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="csv_import.action_server">
+      <field name="name">csv_import server</field>
+      <field name="model_id" ref="model_csv_import_csv_import"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+     <menuitem id="menu_model_main" name="CSV Demo"/>
+    <menuitem id="sub_menu" name="Import csv" parent="menu_model_main" action="csv_import_button" sequence="10"/>
+
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="csv_import.menu_1" parent="csv_import.menu_root"/>
+    <menuitem name="Menu 2" id="csv_import.menu_2" parent="csv_import.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="csv_import.menu_1_list" parent="csv_import.menu_1"
+              action="csv_import.action_window"/>
+    <menuitem name="Server to list" id="csv_import" parent="csv_import.menu_2"
+              action="csv_import.action_server"/>
+-->
+
+</odoo>
